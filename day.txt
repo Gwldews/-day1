@@ -1,0 +1,17 @@
+#coding=utf-8
+
+from lxml import etree
+import requests
+
+url = 'https://book.douban.com/subject/25862578/comments/'#抓取文档所在网站
+
+r = requests.get(url).text#获得网站HTML数据
+
+s = etree.HTML(r)
+file = s.xpath('//*[@id="comments"]/ul/li/div[2]/p')#爬取想要的短评文档片段
+
+#保存爬取到的文字到一个文档
+with open('pinglun.text','w',encoding='utf-8') as f:
+    for i in file:
+        print(i.text)#要加text后缀才会打印出文字，不然是代码
+        f.write(i.text)
